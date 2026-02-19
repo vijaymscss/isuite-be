@@ -10,8 +10,8 @@ const startServer = async () => {
   await connectDB();
   console.log("✅ MongoDB connected successfully");
 
-  app.listen(config.port, () => {
-    console.log(`🎉 Server is running on port ${config.port}`);
+  app.listen(config.port, "0.0.0.0", () => {
+    console.log(`🎉 Server is running on 0.0.0.0:${config.port}`);
     console.log(`🔗 API available at http://localhost:${config.port}`);
   });
 };
