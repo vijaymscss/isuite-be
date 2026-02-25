@@ -13,6 +13,7 @@ module.exports = {
     CODE: "/code",
     STUDENT: "/student",
     TEST_DETAILS: "/test-details",
+    INTERVIEW: "/interview",
   },
 
   // Health routes
@@ -65,6 +66,12 @@ module.exports = {
     QUESTIONS: "/questions",
     QUESTION_BY_ID: "/questions/:questionId",
     LANGUAGES: "/languages",
+  },
+
+  // Interview routes
+  INTERVIEW: {
+    LIST: "/list",
+    CREATE: "/create",
   },
 
   // Parameter placeholders (for documentation/reference)

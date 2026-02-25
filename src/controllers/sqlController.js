@@ -48,13 +48,10 @@ const validateQuery = async (req, res) => {
   // Validate the query
   const validationResult = sqlValidatorService.validateQuery(question, userQuery);
 
-  console.log("[Controller] SQL validation result - allPassed:", validationResult.allPassed);
-  console.log("[Controller] emailId provided:", !!emailId, emailId);
 
   // If query executed successfully (all test cases passed) and emailId is provided, store in DB
   if (validationResult.allPassed && emailId) {
     try {
-      console.log("[Controller] Attempting to save SQL solution...");
       const result = await studentRepository.addOrUpdateSqlSolution(
         emailId,
         question_id,
@@ -62,7 +59,6 @@ const validateQuery = async (req, res) => {
         question.difficulty
       );
       
-      console.log("[Controller] Save result:", result);
       
       if (result.student) {
         validationResult.saved = true;
@@ -73,12 +69,10 @@ const validateQuery = async (req, res) => {
       }
     } catch (error) {
       // Log error but don't fail the response - query validation was successful
-      console.error("Error saving SQL solution:", error.message);
       validationResult.saved = false;
       validationResult.saveError = error.message;
     }
   } else {
-    console.log("[Controller] Not saving - allPassed:", validationResult.allPassed, "emailId:", emailId);
   }
 
   res.json({

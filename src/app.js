@@ -23,9 +23,7 @@ app.use((req, res, next) => {
 // Request logging middleware
 app.use((req, res, next) => {
   console.log(`📥 ${req.method} ${req.url}`);
-  console.log(`   Headers:`, req.headers['content-type'] || 'none');
   if (req.body && Object.keys(req.body).length > 0) {
-    console.log(`   Body:`, JSON.stringify(req.body, null, 2));
   }
   next();
 });

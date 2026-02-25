@@ -135,19 +135,13 @@ const addVerbalAbilityScore = async (emailID, verbalAbilityData) => {
  */
 const addAptitudeScore = async (emailID, aptitudeData) => {
   try {
-    console.log("[Repository] addAptitudeScore called");
-    console.log("[Repository] emailID:", emailID);
-    console.log("[Repository] aptitudeData:", JSON.stringify(aptitudeData, null, 2));
-
     const student = await Student.findOneAndUpdate(
       { emailID: emailID.toLowerCase() },
       { $push: { "practice.aptitude": aptitudeData } },
       { new: true, runValidators: true }
     );
 
-    console.log("[Repository] Update result - student found:", !!student);
     if (student) {
-      console.log("[Repository] Updated aptitude:", JSON.stringify(student.practice?.aptitude, null, 2));
     }
     
     return student;
@@ -193,10 +187,6 @@ const addModuleAssessment = async (emailID, assessmentType, assessmentData) => {
  */
 const addOrUpdateSqlSolution = async (emailID, questionId, query, difficulty) => {
   try {
-    console.log("[Repository] addOrUpdateSqlSolution called");
-    console.log("[Repository] emailID:", emailID);
-    console.log("[Repository] questionId:", questionId);
-    console.log("[Repository] difficulty:", difficulty);
 
     // First, check if the student exists
     const existingStudent = await Student.findOne({
@@ -204,7 +194,6 @@ const addOrUpdateSqlSolution = async (emailID, questionId, query, difficulty) =>
     });
 
     if (!existingStudent) {
-      console.log("[Repository] Student not found for email:", emailID);
       return { student: null, isUpdate: false };
     }
 
@@ -212,7 +201,6 @@ const addOrUpdateSqlSolution = async (emailID, questionId, query, difficulty) =>
     const hasExistingQuestion = existingStudent.sql && 
       existingStudent.sql.some(s => s.questionId === questionId);
 
-    console.log("[Repository] Has existing question:", hasExistingQuestion);
 
     if (hasExistingQuestion) {
       // Question already solved, update the query and dateTime
@@ -227,7 +215,6 @@ const addOrUpdateSqlSolution = async (emailID, questionId, query, difficulty) =>
         },
         { new: true, runValidators: true }
       );
-      console.log("[Repository] Updated existing SQL solution");
       return { student: updatedStudent, isUpdate: true };
     } else {
       // Question not solved yet, add new entry
@@ -245,12 +232,9 @@ const addOrUpdateSqlSolution = async (emailID, questionId, query, difficulty) =>
         },
         { new: true, runValidators: true }
       );
-      console.log("[Repository] Added new SQL solution");
-      console.log("[Repository] Updated student sql array:", updatedStudent?.sql);
       return { student: updatedStudent, isUpdate: false };
     }
   } catch (error) {
-    console.error("[Repository] Error in addOrUpdateSqlSolution:", error);
     throw new Error(`Error adding/updating SQL solution: ${error.message}`);
   }
 };
@@ -265,10 +249,6 @@ const addOrUpdateSqlSolution = async (emailID, questionId, query, difficulty) =>
  */
 const addOrUpdateDsaSolution = async (emailID, questionId, difficulty, code) => {
   try {
-    console.log("[Repository] addOrUpdateDsaSolution called");
-    console.log("[Repository] emailID:", emailID);
-    console.log("[Repository] questionId:", questionId);
-    console.log("[Repository] difficulty:", difficulty);
 
     // First, check if the student exists
     const existingStudent = await Student.findOne({
@@ -276,7 +256,6 @@ const addOrUpdateDsaSolution = async (emailID, questionId, difficulty, code) => 
     });
 
     if (!existingStudent) {
-      console.log("[Repository] Student not found for email:", emailID);
       return { student: null, isUpdate: false };
     }
 
@@ -284,7 +263,6 @@ const addOrUpdateDsaSolution = async (emailID, questionId, difficulty, code) => 
     const hasExistingQuestion = existingStudent.dsa && 
       existingStudent.dsa.some(d => d.questionId === questionId);
 
-    console.log("[Repository] Has existing DSA question:", hasExistingQuestion);
 
     if (hasExistingQuestion) {
       // Question already solved, update the code and dateTime
@@ -299,7 +277,6 @@ const addOrUpdateDsaSolution = async (emailID, questionId, difficulty, code) => 
         },
         { new: true, runValidators: true }
       );
-      console.log("[Repository] Updated existing DSA solution");
       return { student: updatedStudent, isUpdate: true };
     } else {
       // Question not solved yet, add new entry
@@ -317,12 +294,9 @@ const addOrUpdateDsaSolution = async (emailID, questionId, difficulty, code) => 
         },
         { new: true, runValidators: true }
       );
-      console.log("[Repository] Added new DSA solution");
-      console.log("[Repository] Updated student dsa array:", updatedStudent?.dsa);
       return { student: updatedStudent, isUpdate: false };
     }
   } catch (error) {
-    console.error("[Repository] Error in addOrUpdateDsaSolution:", error);
     throw new Error(`Error adding/updating DSA solution: ${error.message}`);
   }
 };
@@ -335,8 +309,6 @@ const addOrUpdateDsaSolution = async (emailID, questionId, difficulty, code) => 
  */
 const updateTodayForStudent = async (emailId, todayData) => {
   try {
-    console.log("[Repository] Updating today object for:", emailId);
-    console.log("[Repository] todayData:", JSON.stringify(todayData, null, 2));
 
     const updateFields = {};
     
@@ -358,10 +330,8 @@ const updateTodayForStudent = async (emailId, todayData) => {
       throw new Error("Student not found");
     }
 
-    console.log("[Repository] Updated today object successfully");
     return updatedStudent;
   } catch (error) {
-    console.error("[Repository] Error in updateTodayForStudent:", error);
     throw new Error(`Error updating today: ${error.message}`);
   }
 };
@@ -373,7 +343,6 @@ const updateTodayForStudent = async (emailId, todayData) => {
  */
 const resetTodayForStudent = async (emailId) => {
   try {
-    console.log("[Repository] Resetting today object for:", emailId);
     
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -396,10 +365,8 @@ const resetTodayForStudent = async (emailId) => {
       throw new Error("Student not found");
     }
 
-    console.log("[Repository] Reset today object successfully");
     return updatedStudent;
   } catch (error) {
-    console.error("[Repository] Error in resetTodayForStudent:", error);
     throw new Error(`Error resetting today: ${error.message}`);
   }
 };

@@ -152,7 +152,6 @@ Do not include explanations, calculations, or extra text.
       feedback: result.feedback,
     };
   } catch (error) {
-    console.error("[AIModel] Evaluation error:", error.message);
     throw new Error(`Speaking evaluation failed: ${error.message}`);
   }
 };

@@ -495,7 +495,6 @@ const addVerbalAbilityScore = async (req, res, next) => {
  * @body {number} score - Score achieved (required)
  */
 const addAptitudeScore = async (req, res, next) => {
-  console.log("req.body", req.body);
   try {
     const { emailId, testId, dateTime, module, score } = req.body;
 
@@ -567,16 +566,12 @@ const addAptitudeScore = async (req, res, next) => {
       score,
     };
 
-    console.log("[Controller] addAptitudeScore - Request body:", JSON.stringify(req.body, null, 2));
-    console.log("[Controller] Prepared aptitudeData:", JSON.stringify(aptitudeData, null, 2));
-
     // Add aptitude score
     const student = await studentRepository.addAptitudeScore(
       emailId,
       aptitudeData
     );
 
-    console.log("[Controller] Repository returned student:", !!student);
 
     if (!student) {
       return res.status(404).json({

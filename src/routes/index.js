@@ -6,6 +6,7 @@ const sqlRoutes = require("./sqlRoutes");
 const codeRoutes = require("./codeRoutes");
 const studentRoutes = require("./studentRoutes");
 const testDetailsRoutes = require("./testDetailsRoutes");
+const interviewRoutes = require("./interviewRoutes");
 
 const router = express.Router();
 
@@ -16,5 +17,6 @@ router.use(API.BASE.SQL, sqlRoutes);
 router.use(API.BASE.CODE, codeRoutes);
 router.use(API.BASE.STUDENT, studentRoutes);
 router.use(API.BASE.TEST_DETAILS, testDetailsRoutes);
+router.use(API.BASE.INTERVIEW, interviewRoutes);
 
 module.exports = router;

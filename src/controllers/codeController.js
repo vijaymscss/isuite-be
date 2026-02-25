@@ -183,7 +183,6 @@ const validateDSACode = async (req, res) => {
 
     if (result.allPassed && emailId) {
       try {
-        console.log("[Controller] Attempting to save DSA solution...");
         const saveResult = await studentRepository.addOrUpdateDsaSolution(
           emailId,
           question_id,
@@ -191,7 +190,6 @@ const validateDSACode = async (req, res) => {
           source_code
         );
         
-        console.log("[Controller] DSA Save result:", saveResult);
         
         if (saveResult.student) {
           saved = true;
@@ -200,7 +198,6 @@ const validateDSACode = async (req, res) => {
           saveError = "Student not found";
         }
       } catch (error) {
-        console.error("Error saving DSA solution:", error.message);
         saveError = error.message;
       }
     }
