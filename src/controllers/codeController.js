@@ -158,8 +158,25 @@ const validateDSACode = async (req, res) => {
     });
   }
 
-  // Validate function name exists
-  if (!question.functionName) {
+  // Extract function name from pattern or use functionName field
+  let functionName = question.functionName;
+
+  if (!functionName && question.pattern) {
+    const langPattern = question.pattern[language.toLowerCase()];
+    if (langPattern && langPattern.length > 0) {
+      const signature = langPattern[0];
+      // Extract function name from pattern signatures:
+      // Python: "def reverseArray(nums):" → reverseArray
+      // Java:   "public int[] reverseArray(int[] nums) {" → reverseArray
+      // C++:    "vector<int> reverseArray(vector<int>& nums) {" → reverseArray
+      const match = signature.match(/(?:def\s+|(?:public\s+)?(?:[\w<>\[\]&*]+\s+)+?)(\w+)\s*\(/);
+      if (match) {
+        functionName = match[1];
+      }
+    }
+  }
+
+  if (!functionName) {
     return res.status(200).json({
       success: false,
       error: "Configuration Error",
@@ -167,14 +184,30 @@ const validateDSACode = async (req, res) => {
     });
   }
 
+  console.log(`\n🔍 Validating DSA Code:`);
+  console.log(`   Question: ${question.title} (${question_id})`);
+  console.log(`   Language: ${language}`);
+  console.log(`   Function: ${functionName}`);
+  console.log(`   Test Cases: ${question.testCases.length}`);
+
   try {
     // Use the new wrapped execution method
     const result = await judge0Service.runWrappedDSACode(
       source_code,
       language,
-      question.functionName,
+      functionName,
       question.testCases
     );
+
+    console.log(`\n📊 Validation Result:`);
+    console.log(`   All Passed: ${result.allPassed}`);
+    console.log(`   Passed: ${result.passedTests}/${result.totalTests}`);
+    if (result.error) {
+      console.log(`   Error: ${result.error.type} - ${result.error.message}`);
+    }
+    result.testResults?.forEach((tr) => {
+      console.log(`   Test #${tr.testCaseId}: ${tr.passed ? "✅ Passed" : "❌ Failed"} | Input: ${JSON.stringify(tr.input)} | Expected: ${JSON.stringify(tr.expectedOutput)} | Actual: ${JSON.stringify(tr.actualOutput)}`);
+    });
 
     // If all tests passed and emailId is provided, save to DB
     let saved = false;
@@ -209,16 +242,25 @@ const validateDSACode = async (req, res) => {
         questionId: question.question_id,
         questionTitle: question.title,
         difficulty: question.difficulty,
-        expectedFunctionName: question.functionName,
+        expectedFunctionName: functionName,
         allPassed: result.allPassed,
         totalTests: result.totalTests,
         passedTests: result.passedTests,
         failedTests: result.failedTests,
         executionTime: result.executionTime,
         memoryUsed: result.memoryUsed,
-        ...(result.stdout && { stdout: result.stdout }),
+        stdout: result.stdout || "",
         ...(result.error && { error: result.error }),
         testResults: result.testResults,
+        output: result.testResults?.map((tr) => ({
+          testCaseId: tr.testCaseId,
+          input: tr.input,
+          expectedOutput: tr.expectedOutput,
+          actualOutput: tr.actualOutput,
+          passed: tr.passed,
+          ...(tr.stdout && { stdout: tr.stdout }),
+          ...(tr.error && { error: tr.error }),
+        })),
         ...(emailId && { saved, isUpdate }),
         ...(saveError && { saveError }),
       },

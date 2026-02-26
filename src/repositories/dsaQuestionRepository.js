@@ -1,4 +1,7 @@
-const dsaQuestions = [
+const { dsaQuestions } = require("../constants/DSA/DSAQuestions");
+
+// Legacy questions kept for backward compatibility
+const legacyQuestions = [
   {
     "question_id": "LC_DSA_001",
     "category": "Programming",
@@ -146,13 +149,15 @@ const dsaQuestions = [
   }
 ];
 
+const allQuestions = [...dsaQuestions, ...legacyQuestions];
+
 /**
  * Find a DSA question by ID
  * @param {string} questionId
  * @returns {object|null}
  */
 const findById = (questionId) => {
-  return dsaQuestions.find((q) => q.question_id === questionId) || null;
+  return allQuestions.find((q) => q.question_id === questionId) || null;
 };
 
 /**
@@ -160,11 +165,11 @@ const findById = (questionId) => {
  * @returns {Array}
  */
 const findAll = () => {
-  return dsaQuestions;
+  return allQuestions;
 };
 
 module.exports = {
-  dsaQuestions,
+  dsaQuestions: allQuestions,
   findById,
   findAll,
 };
