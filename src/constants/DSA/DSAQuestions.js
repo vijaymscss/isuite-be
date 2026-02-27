@@ -20,7 +20,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public int[] reverseArray(int[] nums) { // dont change the function signature",
+        "public static int[] reverseArray(int[] nums) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -53,7 +53,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public int findMax(int[] nums) { // dont change the function signature",
+        "public static int findMax(int[] nums) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -86,7 +86,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public int removeDuplicates(int[] nums) { // dont change the function signature",
+        "public static int removeDuplicates(int[] nums) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -118,7 +118,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public int[] moveZeroes(int[] nums) { // dont change the function signature",
+        "public static int[] moveZeroes(int[] nums) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -151,7 +151,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public boolean isSorted(int[] nums) { // dont change the function signature",
+        "public static boolean isSorted(int[] nums) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -183,7 +183,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public int missingNumber(int[] nums) { // dont change the function signature",
+        "public static int missingNumber(int[] nums) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -215,7 +215,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public int[] rotateArray(int[] nums, int k) { // dont change the function signature",
+        "public static int[] rotateArray(int[] nums, int k) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -247,7 +247,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public int secondLargest(int[] nums) { // dont change the function signature",
+        "public static int secondLargest(int[] nums) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -279,7 +279,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public Map<Integer, Integer> frequency(int[] nums) { // dont change the function signature",
+        "public static Map<Integer, Integer> frequency(int[] nums) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -311,7 +311,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public String reverseString(String s) { // dont change the function signature",
+        "public static String reverseString(String s) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -342,7 +342,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public boolean isAnagram(String s, String t) { // dont change the function signature",
+        "public static boolean isAnagram(String s, String t) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -374,7 +374,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public int firstUniqueChar(String s) { // dont change the function signature",
+        "public static int firstUniqueChar(String s) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -406,7 +406,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public int countVowels(String s) { // dont change the function signature",
+        "public static int countVowels(String s) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -438,7 +438,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public String removeDuplicates(String s) { // dont change the function signature",
+        "public static String removeDuplicates(String s) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -470,7 +470,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public String longestWord(String s) { // dont change the function signature",
+        "public static String longestWord(String s) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -502,7 +502,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public String reverseWords(String s) { // dont change the function signature",
+        "public static String reverseWords(String s) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -535,7 +535,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public boolean isDigits(String s) { // dont change the function signature",
+        "public static boolean isDigits(String s) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -567,7 +567,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public int strStr(String haystack, String needle) { // dont change the function signature",
+        "public static int strStr(String haystack, String needle) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -600,7 +600,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public boolean isPalindrome(String s) { // dont change the function signature",
+        "public static boolean isPalindrome(String s) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],
@@ -632,7 +632,7 @@ const dsaQuestions = [
         "}"
       ],
       "java": [
-        "public int[] mergeArrays(int[] nums1, int[] nums2) { // dont change the function signature",
+        "public static int[] mergeArrays(int[] nums1, int[] nums2) { // dont change the function signature",
         "    // write your code here",
         "}"
       ],

@@ -25,12 +25,16 @@ const submitCode = async (sourceCode, language, stdin = "") => {
   }
 
   try {
+    // Base64 encode source_code and stdin to avoid UTF-8 issues with Judge0
+    const encodedSource = Buffer.from(sourceCode).toString('base64');
+    const encodedStdin = Buffer.from(stdin).toString('base64');
+
     const response = await axios.post(
-      `${JUDGE0_URL}?base64_encoded=false&wait=true`,
+      `${JUDGE0_URL}?base64_encoded=true&wait=true`,
       {
         language_id: languageId,
-        source_code: sourceCode,
-        stdin: stdin,
+        source_code: encodedSource,
+        stdin: encodedStdin,
       },
       {
         headers: {
@@ -40,10 +44,13 @@ const submitCode = async (sourceCode, language, stdin = "") => {
       }
     );
 
+    // Decode base64 output fields
+    const decode = (val) => val ? Buffer.from(val, 'base64').toString('utf8') : val;
+
     return {
-      stdout: response.data.stdout,
-      stderr: response.data.stderr,
-      compile_output: response.data.compile_output,
+      stdout: decode(response.data.stdout),
+      stderr: decode(response.data.stderr),
+      compile_output: decode(response.data.compile_output),
       status: response.data.status,
       time: response.data.time,
       memory: response.data.memory,
