@@ -14,6 +14,9 @@ COPY package.json pnpm-lock.yaml ./
 # Install dependencies with frozen lockfile for deterministic builds
 RUN pnpm install --frozen-lockfile --prod
 
+# Rebuild native addons (better-sqlite3) from source for this platform
+RUN pnpm rebuild better-sqlite3
+
 # Copy application source
 COPY . .
 
