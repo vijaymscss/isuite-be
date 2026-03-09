@@ -46,7 +46,7 @@ const validateQuery = async (req, res) => {
   }
 
   // Validate the query
-  const validationResult = sqlValidatorService.validateQuery(question, userQuery);
+  const validationResult = await sqlValidatorService.validateQuery(question, userQuery);
 
 
   // If query executed successfully (all test cases passed) and emailId is provided, store in DB

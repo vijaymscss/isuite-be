@@ -1,10 +1,19 @@
-const Database = require("better-sqlite3");
+const initSqlJs = require("sql.js");
 
 /**
  * SQL Validator Service
  * Handles SQL query validation against test cases
  */
 class SqlValidatorService {
+  constructor() {
+    // Initialize sql.js once and cache the SQL namespace
+    this._sqlPromise = initSqlJs();
+  }
+
+  async _getSQL() {
+    return this._sqlPromise;
+  }
+
   /**
    * Map JS types to SQLite column types
    */
@@ -125,14 +134,15 @@ class SqlValidatorService {
   /**
    * Run a single test case
    */
-  runTestCase(testCase, tables, userQuery) {
-    const db = new Database(":memory:");
+  async runTestCase(testCase, tables, userQuery) {
+    const SQL = await this._getSQL();
+    const db = new SQL.Database();
 
     try {
       // Create tables
       for (const table of tables) {
         const createSql = this.generateCreateTableSql(table);
-        db.exec(createSql);
+        db.run(createSql);
       }
 
       // Insert test data
@@ -141,13 +151,24 @@ class SqlValidatorService {
         if (tableData) {
           const insertStatements = this.generateInsertSql(table.name, tableData);
           for (const sql of insertStatements) {
-            db.exec(sql);
+            db.run(sql);
           }
         }
       }
 
-      // Execute user query
-      const result = db.prepare(userQuery).all();
+      // Execute user query — db.exec returns [{ columns, values }]
+      const execResult = db.exec(userQuery);
+      let result = [];
+      if (execResult.length > 0) {
+        const { columns, values } = execResult[0];
+        result = values.map((row) => {
+          const obj = {};
+          columns.forEach((col, i) => {
+            obj[col] = row[i];
+          });
+          return obj;
+        });
+      }
 
       // Compare results
       const comparison = this.compareResults(result, testCase.expectedOutput);
@@ -177,12 +198,12 @@ class SqlValidatorService {
   /**
    * Validate user query against all test cases
    */
-  validateQuery(question, userQuery) {
+  async validateQuery(question, userQuery) {
     const results = [];
     let passedCount = 0;
 
     for (const testCase of question.testCases) {
-      const result = this.runTestCase(testCase, question.tables, userQuery);
+      const result = await this.runTestCase(testCase, question.tables, userQuery);
       results.push(result);
       if (result.passed) passedCount++;
     }
