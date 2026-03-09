@@ -1,8 +1,5 @@
 FROM node:22-alpine
 
-# Install build tools needed for native addons (better-sqlite3)
-RUN apk add --no-cache python3 make g++
-
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
@@ -13,9 +10,6 @@ COPY package.json pnpm-lock.yaml ./
 
 # Install dependencies with frozen lockfile for deterministic builds
 RUN pnpm install --frozen-lockfile --prod
-
-# Rebuild native addons (better-sqlite3) from source for this platform
-RUN pnpm rebuild better-sqlite3
 
 # Copy application source
 COPY . .
